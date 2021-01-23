@@ -2,7 +2,8 @@
   <div>
     <nav style="min-height: 80px" class="navbar is-success" role="navigation" aria-label="main navigation">
       <div class="navbar-brand">
-        <button class="navbar-burger is-warning button" aria-label="menu" aria-expanded="false"
+        <h1 class="navbar-item is-size-2">Drive</h1>
+        <button class="navbar-burger is-success button" aria-label="menu" aria-expanded="false"
                 data-target="navbarBasicExample">
           <span aria-hidden="true"></span>
           <span aria-hidden="true"></span>

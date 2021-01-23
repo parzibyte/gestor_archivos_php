@@ -27,6 +27,7 @@ class Gestor
                 self::guardarArchivoEnBaseDeDatos($nombreArchivo, $nuevoNombre, $tamanio);
             }
         }
+        return true;
     }
 
     static function guardarArchivoEnBaseDeDatos($nombreOriginal, $nombreReal, $tamanio)
