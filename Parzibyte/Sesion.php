@@ -26,14 +26,25 @@ class Sesion
         return (object)[
             "id" => $_SESSION["id"],
             "correo" => $_SESSION["correo"],
+            "administrador" => $_SESSION["administrador"],
         ];
     }
 
-    public static function propagarUsuario($id, $correo)
+    public static function esAdministrador()
+    {
+        $usuario = self::obtenerUsuario();
+        if (!$usuario) {
+            return false;
+        }
+        return $usuario->administrador === 1;
+    }
+
+    public static function propagarUsuario($id, $correo, $administrador)
     {
         self::iniciar();
         $_SESSION["id"] = $id;
         $_SESSION["correo"] = $correo;
+        $_SESSION["administrador"] = $administrador;
     }
 
     public static function iniciar()

@@ -15,7 +15,7 @@ $palabraSecreta = $datos->palabraSecreta;
 $ok = Usuarios::login($correo, $palabraSecreta);
 if ($ok) {
     $usuario = Usuarios::obtenerUnoPorCorreo($correo);
-    Sesion::propagarUsuario($usuario->id, $usuario->correo);
+    Sesion::propagarUsuario($usuario->id, $usuario->correo, $usuario->administrador);
     echo json_encode(true);
 } else {
     echo json_encode(false);

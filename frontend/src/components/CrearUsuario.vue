@@ -16,6 +16,11 @@
                  placeholder="Vuelve a escribir la contraseña"
                  v-model="palabraSecretaConfirmar"></b-input>
       </b-field>
+      <b-field label="¿Administrador?">
+        <b-checkbox v-model="administrador">
+          {{ administrador ? "Sí" : "No" }}
+        </b-checkbox>
+      </b-field>
       <b-field>
         <b-button :loading="cargando" @click="agregarUsuario()" type="is-success">Guardar</b-button>
       </b-field>
@@ -32,6 +37,7 @@ export default {
   data: () => ({
     cargando: false,
     correo: "",
+    administrador: false,
     palabraSecreta: "",
     palabraSecretaConfirmar: "",
   }),
@@ -49,7 +55,7 @@ export default {
       }
       try {
         this.cargando = true;
-        const respuesta = await UsuariosService.crearUsuario(this.correo, this.palabraSecreta);
+        const respuesta = await UsuariosService.crearUsuario(this.correo, this.palabraSecreta, this.administrador);
         if (respuesta) {
           NotificacionesService.mostrarNotificacionExito("Usuario creado correctamente");
           this.correo = this.palabraSecreta = this.palabraSecretaConfirmar = "";
