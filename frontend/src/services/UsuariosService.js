@@ -8,6 +8,9 @@ const UsuariosService = {
     async login(correo, palabraSecreta) {
         const cargaUtil = {correo, palabraSecreta};
         return await HttpService.post("/login.php", cargaUtil);
+    },
+    async logout() {
+        return await HttpService.get("/logout.php");
     }
 };
 export default UsuariosService;

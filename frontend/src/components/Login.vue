@@ -29,6 +29,7 @@
 <script>
 import UsuariosService from "@/services/UsuariosService";
 import NotificacionesService from "@/services/NotificacionesService";
+import EventBus from "@/EventBus";
 
 export default {
   name: "Login",
@@ -47,9 +48,11 @@ export default {
       }
       try {
         this.cargando = true;
-        const respuesta = await UsuariosService.login(this.correo, this.palabraSecreta);
-        if (respuesta) {
+        const usuarioLogueado = await UsuariosService.login(this.correo, this.palabraSecreta);
+        if (usuarioLogueado) {
           NotificacionesService.mostrarNotificacionExito("Bienvenido");
+          EventBus.establecerUsuario(usuarioLogueado);
+          EventBus.$emit("navegarHacia", "SubirArchivo");
           this.correo = this.palabraSecreta = "";
         } else {
           NotificacionesService.mostrarNotificacionError("Usuario o contraseña incorrectos");

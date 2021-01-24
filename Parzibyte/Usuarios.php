@@ -9,7 +9,7 @@ class Usuarios
 {
     public static function agregarUsuario($correo, $palabraSecreta, $administrador)
     {
-        $administrador = boolval($administrador);
+        $administrador = intval($administrador);
         $palabraSecretaHasheada = Seguridad::hashearPalabraSecreta($palabraSecreta);
         $bd = BD::obtener();
         $sentencia = $bd->prepare("INSERT INTO usuarios(correo, palabra_secreta, administrador) VALUES(?, ?, ?)");

@@ -1,6 +1,7 @@
 <template>
   <div>
-    <nav style="min-height: 80px" class="navbar is-success" role="navigation" aria-label="main navigation">
+    <nav v-show="deberiaMostrarMenu" style="min-height: 80px" class="navbar is-success" role="navigation"
+         aria-label="main navigation">
       <div class="navbar-brand">
         <h1 class="navbar-item is-size-2">Drive</h1>
         <button class="navbar-burger is-success button" aria-label="menu" aria-expanded="false"
@@ -12,12 +13,13 @@
       </div>
       <div class="navbar-menu">
         <div class="navbar-start">
-          <router-link class="navbar-item" :to='{name: "SubirArchivo"}'>SubirArchivo</router-link>
-          <router-link class="navbar-item" :to='{name: "Login"}'>Login</router-link>
-          <router-link class="navbar-item" :to='{name: "CrearUsuario"}'>CrearUsuario</router-link>
+          <router-link v-show="logueado" class="navbar-item" :to='{name: "SubirArchivo"}'>SubirArchivo</router-link>
+          <router-link v-show="logueado && esAdministrador" class="navbar-item" :to='{name: "CrearUsuario"}'>
+            CrearUsuario
+          </router-link>
         </div>
         <div class="navbar-end">
-          <a class="navbar-item" href="#">Enlace a la derecha</a>
+          <router-link v-show="logueado" class="navbar-item" :to='{name: "Logout"}'>Salir (<small>{{correo}}</small>)</router-link>
           <div class="navbar-item">
             <div class="buttons">
               <a target="_blank" rel="noreferrer" href="https://parzibyte.me/l/fW8zGd"
@@ -37,12 +39,36 @@
 
 <script>
 
+import EventBus from "@/EventBus";
+
 export default {
   name: 'app',
+  mounted() {
+    EventBus.$on("establecerUsuario", usuario => {
+      this.esAdministrador = usuario.administrador;
+      this.correo = usuario.correo;
+      this.logueado = true;
+    });
+    EventBus.$on("navegarHacia", this.navegarHacia);
+    EventBus.$on("mostrarMenu", this.mostrarMenu);
+    EventBus.$on("ocultarMenu", this.ocultarMenu);
+  },
   methods: {
-    mostrarToast() {
-      this.$buefy.toast.open("¡Hola, Buefy! Parzibyte.me")
+    mostrarMenu() {
+      this.deberiaMostrarMenu = true;
+    },
+    ocultarMenu() {
+      this.deberiaMostrarMenu = false;
+    },
+    navegarHacia(nombreRuta) {
+      this.$router.push({name: nombreRuta});
     }
-  }
+  },
+  data: () => ({
+    esAdministrador: false,
+    logueado: false,
+    deberiaMostrarMenu: false,
+    correo: "",
+  }),
 }
 </script>

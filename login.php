@@ -16,7 +16,10 @@ $ok = Usuarios::login($correo, $palabraSecreta);
 if ($ok) {
     $usuario = Usuarios::obtenerUnoPorCorreo($correo);
     Sesion::propagarUsuario($usuario->id, $usuario->correo, $usuario->administrador);
-    echo json_encode(true);
+    echo json_encode([
+        "correo" => $usuario->correo,
+        "administrador" => $usuario->administrador,
+    ]);
 } else {
     echo json_encode(false);
 }
