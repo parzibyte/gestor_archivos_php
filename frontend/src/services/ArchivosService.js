@@ -1,4 +1,4 @@
-import Constantes from "@/Constantes";
+import HttpService from "@/services/HttpService";
 
 const ArchivosService = {
     async subirArchivos(archivos) {
@@ -6,11 +6,7 @@ const ArchivosService = {
         for (const archivo of archivos) {
             formData.append("archivos[]", archivo);
         }
-        const respuestaRaw = await fetch(`${Constantes.URL_SERVIDOR}/guardar.php`, {
-            method: "POST",
-            body: formData,
-        });
-        return await respuestaRaw.json();
+        return await HttpService.formdata("/subir_archivos.php", formData);
     }
 };
 export default ArchivosService;

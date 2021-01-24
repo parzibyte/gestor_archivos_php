@@ -15,6 +15,8 @@
           <router-link class="navbar-item" :to='{name: "Hola"}'>Hola</router-link>
           <router-link class="navbar-item" :to='{name: "Perfil"}'>Perfil</router-link>
           <router-link class="navbar-item" :to='{name: "SubirArchivo"}'>SubirArchivo</router-link>
+          <router-link class="navbar-item" :to='{name: "Login"}'>Login</router-link>
+          <router-link class="navbar-item" :to='{name: "CrearUsuario"}'>CrearUsuario</router-link>
         </div>
         <div class="navbar-end">
           <a class="navbar-item" href="#">Enlace a la derecha</a>

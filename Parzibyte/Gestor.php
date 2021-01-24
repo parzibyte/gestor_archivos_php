@@ -12,6 +12,7 @@ class Gestor
         // Nota: esta ubicación debe existir
         return dirname(dirname(__FILE__)) . DIRECTORY_SEPARATOR . "subidas";
     }
+
     static function procesarArchivos($archivos)
     {
         $cantidadArchivos = count($archivos["name"]);
@@ -32,8 +33,7 @@ class Gestor
 
     static function guardarArchivoEnBaseDeDatos($nombreOriginal, $nombreReal, $tamanio)
     {
-        // TODO: tomarlo de la sesión
-        $idUsuario = 1;
+        $idUsuario = Sesion::obtenerUsuario()->id;
         $bd = BD::obtener();
         $sentencia = $bd->prepare("INSERT INTO archivos(nombre_original, nombre_real, fecha_creacion, tamanio_bytes, id_usuario) VALUES (?, ?, ?, ?, ?)");
         $fechaYHora = date("Y-m-d H:i:s");
