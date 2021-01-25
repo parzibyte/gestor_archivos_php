@@ -26,6 +26,8 @@ class Gestor
             $ok = move_uploaded_file($ubicacionTemporal, $nuevaUbicacion);
             if ($ok) {
                 self::guardarArchivoEnBaseDeDatos($nombreArchivo, $nuevoNombre, $tamanio);
+            } else {
+                return false;
             }
         }
         return true;
@@ -48,7 +50,7 @@ class Gestor
     static function obtenerArchivosDeUsuario($idUsuario)
     {
         $bd = BD::obtener();
-        $sentencia = $bd->prepare("SELECT id, nombre_original, nombre_real, fecha_creacion, tamanio_bytes FROM archivos WHERE id_usuario = ?");
+        $sentencia = $bd->prepare("SELECT id, nombre_original, nombre_real, fecha_creacion, tamanio_bytes FROM archivos WHERE id_usuario = ? ORDER BY fecha_creacion DESC");
         $sentencia->execute([$idUsuario]);
         return $sentencia->fetchAll();
     }

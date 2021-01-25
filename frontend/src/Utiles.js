@@ -12,6 +12,9 @@ const EXTENSIONES_ICONOS = {
     "cs": "language-csharp",
     "java": "language-java",
     "js": "language-javascript",
+    "mkv": "movie",
+    "mp4": "movie",
+    "avi": "movie",
 };
 const ICONO_POR_DEFECTO = "file";
 const Utiles = {
