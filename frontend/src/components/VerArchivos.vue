@@ -39,7 +39,7 @@
                 <b-dropdown-item aria-role="listitem">
                   <b-icon icon="share-variant"></b-icon>&nbsp;Compartir
                 </b-dropdown-item>
-                <b-dropdown-item @click="eliminar(props.row.id)" aria-role="listitem">
+                <b-dropdown-item @click="confirmarEliminacion(props.row.id)" aria-role="listitem">
                   <b-icon icon="delete"></b-icon>&nbsp;Eliminar
                 </b-dropdown-item>
               </b-dropdown>
@@ -66,6 +66,11 @@ export default {
   methods: {
     navegarHacia(nombreRuta) {
       EventBus.$emit("navegarHacia", nombreRuta);
+    },
+    confirmarEliminacion(id) {
+      NotificacionesService.mostrarDialogoConfirmacion("¿Eliminar archivo?", () => {
+        this.eliminar(id);
+      });
     },
     async eliminar(id) {
       try {
