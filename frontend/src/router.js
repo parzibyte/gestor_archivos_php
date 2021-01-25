@@ -4,6 +4,7 @@ import SubirArchivo from '@/components/SubirArchivo'
 import Login from '@/components/Login'
 import Logout from '@/components/Logout'
 import CrearUsuario from '@/components/CrearUsuario'
+import VerArchivos from '@/components/VerArchivos'
 import EventBus from "@/EventBus";
 
 Vue.use(Router);
@@ -28,6 +29,11 @@ const router = new Router({
             path: '/logout',
             name: 'Logout',
             component: Logout,
+        },
+        {
+            path: '/archivos',
+            name: 'VerArchivos',
+            component: VerArchivos,
         }
     ]
 });

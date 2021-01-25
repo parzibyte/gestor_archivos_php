@@ -8,12 +8,15 @@
 <script>
 import UsuariosService from "@/services/UsuariosService";
 import EventBus from "@/EventBus";
+import NotificacionesService from "@/services/NotificacionesService";
 
 export default {
   name: "Logout",
   async mounted() {
+    EventBus.eliminarUsuario();
     await UsuariosService.logout();
     EventBus.$emit("navegarHacia", "Login");
+    NotificacionesService.mostrarNotificacionExito("Hasta pronto");
   }
 }
 </script>
