@@ -20,7 +20,7 @@
             <b-table-column searchable field="tamanio_bytes" label="Tamaño" sortable v-slot="props">
               {{ props.row.tamanio_bytes | bytes_legibles }}
             </b-table-column>
-            <b-table-column field="id" label="Opciones">
+            <b-table-column field="id" label="Opciones" v-slot="props">
               <b-dropdown :triggers="['click']" aria-role="list">
                 <template #trigger>
                   <b-button
@@ -31,7 +31,7 @@
                     <b-icon icon="dots-vertical"></b-icon>
                   </b-button>
                 </template>
-                <b-dropdown-item aria-role="listitem">
+                <b-dropdown-item @click="descargar(props.row.id)" aria-role="listitem">
                   <b-icon icon="cloud-download"></b-icon>&nbsp;Descargar
                 </b-dropdown-item>
                 <b-dropdown-item aria-role="listitem">
@@ -52,6 +52,7 @@
 <script>
 import ArchivosService from "@/services/ArchivosService";
 import IconoDeArchivo from "@/components/IconoDeArchivo";
+import Constantes from "@/Constantes";
 
 export default {
   name: "VerArchivos",
@@ -62,6 +63,10 @@ export default {
   methods: {
     async obtenerArchivos() {
       this.archivos = await ArchivosService.obtenerArchivos();
+    },
+    descargar(id) {
+      const url = Constantes.URL_SERVIDOR + "/descargar.php?id=" + id;
+      window.open(url);
     }
   },
   data: () => ({

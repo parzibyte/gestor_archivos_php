@@ -6,6 +6,33 @@ use Ramsey\Uuid\Uuid;
 
 class Gestor
 {
+    static function obtenerRutaAbsoluta($nombreArchivo)
+    {
+        return self::obtenerUbicacion() . DIRECTORY_SEPARATOR . $nombreArchivo;
+    }
+
+    static function obtenerUnoPorId($idArchivo)
+    {
+        $bd = BD::obtener();
+        $sentencia = $bd->prepare("SELECT nombre_original, nombre_real, fecha_creacion, tamanio_bytes FROM archivos WHERE id = ?");
+        $sentencia->execute([$idArchivo]);
+        return $sentencia->fetchObject();
+    }
+
+    static function archivoPerteneceAUsuarioLogueado($idArchivo)
+    {
+        return self::archivoPerteneceAUsuario($idArchivo, Sesion::obtenerUsuario()->id);
+    }
+
+    static function archivoPerteneceAUsuario($idArchivo, $idUsuario)
+    {
+        $bd = BD::obtener();
+        $sentencia = $bd->prepare("SELECT COUNT(*) AS conteo FROM archivos WHERE id = ? AND id_usuario = ?");
+        $sentencia->execute([$idArchivo, $idUsuario]);
+        return $sentencia->fetchObject()->conteo > 0;
+
+    }
+
     static function obtenerUbicacion()
     {
         // Es un directorio arriba, en la carpeta subidas
