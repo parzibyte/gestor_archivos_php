@@ -1,6 +1,9 @@
 import HttpService from "@/services/HttpService";
 
 const ArchivosService = {
+    async eliminarArchivo(idArchivo) {
+        return await HttpService.post("/eliminar_archivo.php", idArchivo);
+    },
     async obtenerArchivos() {
         return await HttpService.get("/obtener_archivos.php");
     },

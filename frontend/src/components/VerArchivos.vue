@@ -8,6 +8,7 @@
     </div>
     <div class="columns">
       <div class="column">
+        <b-button @click="navegarHacia('SubirArchivo')" type="is-success" icon-right="plus">Agregar</b-button>
         <b-table :data="archivos" :loading="cargando">
           <template>
             <b-table-column searchable field="nombre_original" label="Nombre" sortable v-slot="props">
@@ -38,7 +39,7 @@
                 <b-dropdown-item aria-role="listitem">
                   <b-icon icon="share-variant"></b-icon>&nbsp;Compartir
                 </b-dropdown-item>
-                <b-dropdown-item aria-role="listitem">
+                <b-dropdown-item @click="eliminar(props.row.id)" aria-role="listitem">
                   <b-icon icon="delete"></b-icon>&nbsp;Eliminar
                 </b-dropdown-item>
               </b-dropdown>
@@ -54,6 +55,8 @@
 import ArchivosService from "@/services/ArchivosService";
 import Constantes from "@/Constantes";
 import Utiles from "@/Utiles";
+import NotificacionesService from "@/services/NotificacionesService";
+import EventBus from "@/EventBus";
 
 export default {
   name: "VerArchivos",
@@ -61,11 +64,32 @@ export default {
     this.obtenerArchivos();
   },
   methods: {
+    navegarHacia(nombreRuta) {
+      EventBus.$emit("navegarHacia", nombreRuta);
+    },
+    async eliminar(id) {
+      try {
+        this.cargando = true;
+        const respuesta = await ArchivosService.eliminarArchivo(id);
+        if (respuesta) {
+          await this.obtenerArchivos();
+          NotificacionesService.mostrarNotificacionExito("Archivo eliminado correctamente");
+        } else {
+          NotificacionesService.mostrarNotificacionError("Error eliminando archivo");
+        }
+      } catch (e) {
+        NotificacionesService.mostrarNotificacionError(`Error eliminando archivo: ${e}`);
+      } finally {
+        this.cargando = false;
+      }
+    },
     obtenerIcono(nombreArchivo) {
       return Utiles.obtenerIconoSegunNombreArchivo(nombreArchivo);
     },
     async obtenerArchivos() {
+      this.cargando = true;
       this.archivos = await ArchivosService.obtenerArchivos();
+      this.cargando = false;
     },
     descargar(id) {
       const url = Constantes.URL_SERVIDOR + "/descargar.php?id=" + id;

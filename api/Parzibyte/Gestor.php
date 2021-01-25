@@ -6,6 +6,19 @@ use Ramsey\Uuid\Uuid;
 
 class Gestor
 {
+    static function eliminarArchivo($id)
+    {
+        $detalles = self::obtenerUnoPorId($id);
+        $ok = unlink(self::obtenerRutaAbsoluta($detalles->nombre_real));
+        if ($ok) {
+            $bd = BD::obtener();
+            $sentencia = $bd->prepare("DELETE FROM archivos WHERE id = ?");
+            return $sentencia->execute([$id]);
+        } else {
+            return false;
+        }
+    }
+
     static function obtenerRutaAbsoluta($nombreArchivo)
     {
         return self::obtenerUbicacion() . DIRECTORY_SEPARATOR . $nombreArchivo;
