@@ -39,4 +39,17 @@ class Gestor
         $fechaYHora = date("Y-m-d H:i:s");
         return $sentencia->execute([$nombreOriginal, $nombreReal, $fechaYHora, $tamanio, $idUsuario]);
     }
+
+    static function obtenerArchivosDeUsuarioLogueado()
+    {
+        return self::obtenerArchivosDeUsuario(Sesion::obtenerUsuario()->id);
+    }
+
+    static function obtenerArchivosDeUsuario($idUsuario)
+    {
+        $bd = BD::obtener();
+        $sentencia = $bd->prepare("SELECT id, nombre_original, nombre_real, fecha_creacion, tamanio_bytes FROM archivos WHERE id_usuario = ?");
+        $sentencia->execute([$idUsuario]);
+        return $sentencia->fetchAll();
+    }
 }
