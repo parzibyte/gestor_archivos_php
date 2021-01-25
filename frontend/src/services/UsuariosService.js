@@ -11,6 +11,12 @@ const UsuariosService = {
     },
     async logout() {
         return await HttpService.get("/logout.php");
+    },
+    async obtenerUsuarios() {
+        return await HttpService.get("/obtener_usuarios.php");
+    },
+    async eliminarUsuario(id) {
+        return await HttpService.post("/eliminar_usuario.php", id);
     }
 };
 export default UsuariosService;

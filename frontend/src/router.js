@@ -5,6 +5,7 @@ import Login from '@/components/Login'
 import Logout from '@/components/Logout'
 import CrearUsuario from '@/components/CrearUsuario'
 import VerArchivos from '@/components/VerArchivos'
+import VerUsuarios from '@/components/VerUsuarios'
 import EventBus from "@/EventBus";
 
 Vue.use(Router);
@@ -34,6 +35,11 @@ const router = new Router({
             path: '/archivos',
             name: 'VerArchivos',
             component: VerArchivos,
+        },
+        {
+            path: '/usuarios',
+            name: 'VerUsuarios',
+            component: VerUsuarios,
         }
     ]
 });

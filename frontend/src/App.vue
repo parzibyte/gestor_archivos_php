@@ -15,8 +15,8 @@
         <div class="navbar-start">
           <router-link v-show="logueado" class="navbar-item" :to='{name: "SubirArchivo"}'>SubirArchivo</router-link>
           <router-link v-show="logueado" class="navbar-item" :to='{name: "VerArchivos"}'>VerArchivos</router-link>
-          <router-link v-show="logueado && esAdministrador" class="navbar-item" :to='{name: "CrearUsuario"}'>
-            CrearUsuario
+          <router-link v-show="logueado && esAdministrador" class="navbar-item" :to='{name: "VerUsuarios"}'>
+            VerUsuarios
           </router-link>
         </div>
         <div class="navbar-end">
