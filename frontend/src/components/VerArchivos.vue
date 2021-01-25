@@ -11,7 +11,8 @@
         <b-table :data="archivos" :loading="cargando">
           <template>
             <b-table-column searchable field="nombre_original" label="Nombre" sortable v-slot="props">
-              <IconoDeArchivo :nombre-archivo="props.row.nombre_original"></IconoDeArchivo>
+              <b-icon :icon="obtenerIcono(props.row.nombre_original)">
+              </b-icon>
               {{ props.row.nombre_original }}
             </b-table-column>
             <b-table-column searchable field="fecha_creacion" label="Fecha" sortable v-slot="props">
@@ -51,16 +52,18 @@
 
 <script>
 import ArchivosService from "@/services/ArchivosService";
-import IconoDeArchivo from "@/components/IconoDeArchivo";
 import Constantes from "@/Constantes";
+import Utiles from "@/Utiles";
 
 export default {
   name: "VerArchivos",
-  components: {IconoDeArchivo},
   mounted() {
     this.obtenerArchivos();
   },
   methods: {
+    obtenerIcono(nombreArchivo) {
+      return Utiles.obtenerIconoSegunNombreArchivo(nombreArchivo);
+    },
     async obtenerArchivos() {
       this.archivos = await ArchivosService.obtenerArchivos();
     },

@@ -15,6 +15,7 @@ const EXTENSIONES_ICONOS = {
     "mkv": "movie",
     "mp4": "movie",
     "avi": "movie",
+    "msi": "microsoft-windows",
 };
 const ICONO_POR_DEFECTO = "file";
 const Utiles = {
