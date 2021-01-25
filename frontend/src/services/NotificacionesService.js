@@ -1,4 +1,5 @@
 import {NotificationProgrammatic as Notification} from 'buefy'
+import {DialogProgrammatic as Dialog} from 'buefy'
 
 const NotificacionesService = {
     mostrarNotificacionExito(mensaje) {
@@ -13,6 +14,18 @@ const NotificacionesService = {
             message: mensaje,
             type: 'is-danger',
             position: "is-top-left"
+        });
+    },
+    mostrarDialogoConfirmacion(pregunta, callback, mensajeOk, mensajeCancelar) {
+        mensajeOk = mensajeOk || "Ok";
+        mensajeCancelar = mensajeCancelar || "Cancelar";
+        Dialog.confirm({
+            title: 'Confirmar',
+            message: pregunta,
+            cancelText: mensajeCancelar,
+            confirmText: mensajeOk,
+            type: 'is-danger',
+            onConfirm: callback,
         });
     }
 };
