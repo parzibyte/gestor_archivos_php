@@ -60,11 +60,30 @@ import NotificacionesService from "@/services/NotificacionesService";
 export default {
   name: "VerUsuarios",
   methods: {
-    hacerAdministrador() {
+    async cambiarEstadoAdministrador(nuevoEstado, id) {
+      this.cargando = true;
+      try {
+        const respuestsa = await UsuariosService.cambiarEstadoAdministrador(nuevoEstado, id);
+        if (respuestsa) {
+
+          NotificacionesService.mostrarNotificacionExito("Estado cambiado");
+        } else {
+          NotificacionesService.mostrarNotificacionError("Error cambiando estado");
+        }
+        this.obtenerUsuarios();
+      } catch (e) {
+
+        NotificacionesService.mostrarNotificacionError("Error cambiando estado: " + e);
+      } finally {
+        this.cargando = false;
+      }
 
     },
-    quitarPermisosAdministrador() {
-
+    hacerAdministrador(id) {
+      this.cambiarEstadoAdministrador(1, id);
+    },
+    quitarPermisosAdministrador(id) {
+      this.cambiarEstadoAdministrador(0, id);
     },
     navegarHacia(nombreRuta) {
       EventBus.$emit("navegarHacia", nombreRuta);

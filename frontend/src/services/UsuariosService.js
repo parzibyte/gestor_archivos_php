@@ -17,6 +17,11 @@ const UsuariosService = {
     },
     async eliminarUsuario(id) {
         return await HttpService.post("/eliminar_usuario.php", id);
+    },
+    async cambiarEstadoAdministrador(nuevoEstado, idUsuario) {
+        return await HttpService.post("/cambiar_estado_administrador.php", {
+            nuevoEstado, idUsuario
+        });
     }
 };
 export default UsuariosService;

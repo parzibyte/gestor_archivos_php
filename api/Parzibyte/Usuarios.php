@@ -7,6 +7,12 @@ use Parzibyte\Seguridad;
 
 class Usuarios
 {
+    static function cambiarEstadoAdministrador($nuevoEstado, $idUsuario)
+    {
+        $bd = BD::obtener();
+        $sentencia = $bd->prepare("UPDATE usuarios SET administrador = ? WHERE id = ?");
+        return $sentencia->execute([$nuevoEstado, $idUsuario]);
+    }
 
     static function todos()
     {
