@@ -16,6 +16,8 @@ const EXTENSIONES_ICONOS = {
     "mp4": "movie",
     "avi": "movie",
     "msi": "microsoft-windows",
+    "zip": "zip-box",
+    "rar": "zip-box",
 };
 const ICONO_POR_DEFECTO = "file";
 const Utiles = {

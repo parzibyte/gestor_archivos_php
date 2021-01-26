@@ -22,4 +22,6 @@ Order allow,deny
 3. Recuerda ajustar las variables `post_max_size`, `upload_max_filesize`, `memory_limit` y `max_file_uploads` en el archivo
    **php.ini** según tus necesidades.
    
-   `memory_limit` debería ser mayor que `post_max_size` y `upload_max_filesize`
+   `memory_limit` debería ser mayor que `post_max_size` y `upload_max_filesize`,
+aunque en el caso de las descargas he probado con archivos de hasta **2.59 GB** y no
+   hay problemas, teniendo `128M` como valor en `memory_limit`
