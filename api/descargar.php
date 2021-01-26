@@ -13,7 +13,25 @@ if (!Gestor::archivoPerteneceAUsuarioLogueado($idArchivo)) {
 }
 $archivo = Gestor::obtenerUnoPorId($idArchivo);
 $rutaAbsoluta = Gestor::obtenerRutaAbsoluta($archivo->nombre_real);
+$tamanio = intval(sprintf("%u", filesize($rutaAbsoluta)));;
+$tamanioFragmento = 5 * (1024 * 1024); //5 MB
+set_time_limit(300);
 header('Content-Type: application/octet-stream');
 header("Content-Transfer-Encoding: Binary");
+header("Pragma: no-cache");
+header('Content-Length: ' . filesize($rutaAbsoluta));
 header(sprintf('Content-disposition: attachment; filename="%s"', $archivo->nombre_original));
-readfile($rutaAbsoluta);
+// Servir el archivo en fragmentos, en caso de que el tamaño del mismo sea mayor que el tamaño del fragmento
+if ($tamanio > $tamanioFragmento) {
+    $handle = fopen($rutaAbsoluta, 'rb');
+
+    while (!feof($handle)) {
+        print(@fread($handle, $tamanioFragmento));
+
+        ob_flush();
+        flush();
+    }
+    fclose($handle);
+} else {
+    readfile($rutaAbsoluta);
+}
