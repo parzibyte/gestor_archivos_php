@@ -29,7 +29,7 @@ Order allow,deny
 # Preparando para producción
 
 Ejecutar `npm run build` y copiar al servidor de producción solo la carpeta **api** y todos los archivos generados
-dentro de **dist**.
+dentro de **frontend/dist**.
 
 **Lee bien**: debes copiar todos los archivos generados de manera que estos sean hermanos de la carpeta **api**, y no
 solo copiar la carpeta llamada **dist**. Solo como referencia, el directorio de producción en mi caso

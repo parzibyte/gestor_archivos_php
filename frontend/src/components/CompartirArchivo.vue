@@ -76,7 +76,8 @@ export default {
   },
   methods: {
     obtenerEnlaceParaCompartir() {
-      return Constantes.URL_SERVIDOR + "/descargar_compartido.php?hash=" + this.hash;
+      const URL_BASE = process.env.NODE_ENV === 'production' ? window.location.origin + window.location.pathname + "api" : Constantes.URL_SERVIDOR;
+      return URL_BASE + "/descargar_compartido.php?hash=" + this.hash;
     },
     async copiar() {
       try {
