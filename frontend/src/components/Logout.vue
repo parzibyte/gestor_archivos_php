@@ -1,7 +1,9 @@
 <template>
   <div>
-    <h1>Estamos cerrando sesión</h1>
+    <h1 class="is-size-1">Estamos cerrando sesión</h1>
     <p>Espera...</p>
+    <p>Si estás viendo esto por mucho tiempo, sería bueno refrescar la página. Esto suele pasar
+      cuando no cierras sesión antes de cerrar el navegador</p>
   </div>
 </template>
 

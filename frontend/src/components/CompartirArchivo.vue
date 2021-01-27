@@ -20,10 +20,20 @@
         Cargando...
       </div>
       <div v-show="compartido && !cargando">
-        <strong>Este archivo está compartido en:</strong>
         <p>
-          <a :href="enlaceCompartido">{{ enlaceCompartido }}</a>
+          Este archivo está compartido en
+          <a target="_blank" :href="enlaceCompartido">este enlace</a>. También puedes copiarlo:
         </p>
+        <b-field>
+          <b-input readonly expanded :value="enlaceCompartido"></b-input>
+          <p class="control">
+            <b-tooltip type="is-warning" position="is-left" label="Copiar">
+              <b-button @click="copiar()" class="button is-success">
+                <b-icon icon="content-copy"></b-icon>
+              </b-button>
+            </b-tooltip>
+          </p>
+        </b-field>
         Cualquier persona con el enlace puede descargar el archivo.
         <br>
         Recuerda que puedes dejar de compartir y volver a compartir para generar otro enlace
@@ -61,14 +71,25 @@ export default {
   },
   computed: {
     enlaceCompartido() {
-      return Constantes.URL_SERVIDOR + "/descargar_compartido.php?hash=" + this.hash;
+      return this.obtenerEnlaceParaCompartir();
     },
   },
   methods: {
+    obtenerEnlaceParaCompartir() {
+      return Constantes.URL_SERVIDOR + "/descargar_compartido.php?hash=" + this.hash;
+    },
+    async copiar() {
+      try {
+        await navigator.clipboard.writeText(this.obtenerEnlaceParaCompartir());
+        NotificacionesService.mostrarNotificacionExito("Copiado");
+      } catch (e) {
+        NotificacionesService.mostrarNotificacionExito("Error copiando. Tal vez no estás en localhost ni en un lugar con https. El error es: " + e);
+      }
+    },
     async confirmarDejarDeCompartir() {
       NotificacionesService.mostrarDialogoConfirmacion("¿Seguro que quieres dejar de compartir este archivo?", () => {
         this.dejarDeCompartir();
-      });
+      }, "Sí, dejar de compartir", "Seguir compartiendo");
     },
     async dejarDeCompartir() {
       this.cargando = true;
@@ -92,7 +113,7 @@ export default {
     async confirmarCompartir() {
       NotificacionesService.mostrarDialogoConfirmacion("¿Seguro que quieres compartir este archivo?", () => {
         this.compartir();
-      });
+      }, "Sí, compartir", "No");
     },
     async compartir() {
       this.cargando = true;
