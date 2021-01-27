@@ -15,7 +15,7 @@
     </div>
     <div class="columns">
       <div class="column">
-        <b-button @click="navegarHacia('CrearUsuario')" type="is-success" icon-right="plus">Agregar</b-button>
+        <b-button class="mb-2" @click="navegarHacia('CrearUsuario')" type="is-success" icon-right="plus">Agregar</b-button>
         <b-table :data="usuarios" :loading="cargando">
           <template>
             <b-table-column searchable field="correo" label="Correo" sortable v-slot="props">

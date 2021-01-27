@@ -8,7 +8,7 @@
     </div>
     <div class="columns">
       <div class="column">
-        <b-button @click="navegarHacia('SubirArchivo')" type="is-success" icon-right="plus">Agregar</b-button>
+        <b-button class="mb-2" @click="navegarHacia('SubirArchivo')" type="is-success" icon-right="plus">Agregar</b-button>
         <b-table :data="archivos" :loading="cargando">
           <template>
             <b-table-column searchable field="nombre_original" label="Nombre" sortable v-slot="props">

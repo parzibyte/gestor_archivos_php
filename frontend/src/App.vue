@@ -1,27 +1,33 @@
 <template>
   <div>
-    <nav style="min-height: 80px" class="navbar is-success" role="navigation"
+    <nav style="min-height: 80px" class="navbar is-danger" role="navigation"
          aria-label="main navigation">
       <div class="navbar-brand">
         <h1 class="navbar-item is-size-2">Drive</h1>
-        <button class="navbar-burger is-success button" aria-label="menu" aria-expanded="false"
+        <button @click="menuEstaActivo = !menuEstaActivo" class="navbar-burger is-danger button" aria-label="menu"
+                aria-expanded="false"
                 data-target="navbarBasicExample">
           <span aria-hidden="true"></span>
           <span aria-hidden="true"></span>
           <span aria-hidden="true"></span>
         </button>
       </div>
-      <div class="navbar-menu">
+      <div :class="{'is-active':menuEstaActivo}" class="navbar-menu">
         <div class="navbar-start">
-          <router-link v-show="logueado" class="navbar-item" :to='{name: "SubirArchivo"}'>SubirArchivo</router-link>
-          <router-link v-show="logueado" class="navbar-item" :to='{name: "VerArchivos"}'>VerArchivos</router-link>
-          <router-link v-show="logueado && esAdministrador" class="navbar-item" :to='{name: "VerUsuarios"}'>
-            VerUsuarios
-          </router-link>
+          <a v-show="logueado" class="navbar-item" @click="navegarHacia('VerArchivos')">
+            <b-icon class="mr-1" icon="cloud"></b-icon>&nbsp;
+            Mis archivos
+          </a>
+          <a v-show="logueado && esAdministrador" class="navbar-item"
+             @click="navegarHacia('VerUsuarios')">
+            <b-icon class="mr-1" icon="account-multiple"></b-icon>&nbsp;
+            Usuarios</a>
         </div>
         <div class="navbar-end">
-          <router-link v-show="logueado" class="navbar-item" :to='{name: "Logout"}'>Salir (<small>{{ correo }}</small>)
-          </router-link>
+          <a v-show="logueado" class="navbar-item" @click="navegarHacia('Logout')">Salir (<small>{{
+              correo
+            }}</small>)
+          </a>
           <div class="navbar-item">
             <div class="buttons">
               <a target="_blank" rel="noreferrer" href="https://parzibyte.me/l/fW8zGd"
@@ -45,6 +51,14 @@ import EventBus from "@/EventBus";
 
 export default {
   name: 'app',
+
+  data: () => ({
+    esAdministrador: false,
+    logueado: false,
+    deberiaMostrarMenu: false,
+    correo: "",
+    menuEstaActivo: false,
+  }),
   mounted() {
     EventBus.$on("establecerUsuario", usuario => {
       this.refrescarUsuario(usuario);
@@ -81,13 +95,9 @@ export default {
     },
     navegarHacia(nombreRuta) {
       this.$router.push({name: nombreRuta});
+      this.menuEstaActivo = false;
     }
   },
-  data: () => ({
-    esAdministrador: false,
-    logueado: false,
-    deberiaMostrarMenu: false,
-    correo: "",
-  }),
+
 }
 </script>
