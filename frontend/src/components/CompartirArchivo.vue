@@ -64,10 +64,29 @@ export default {
     },
   },
   methods: {
+    async dejarDeCompartir() {
+      // TODO: alerta confirmación
+
+      this.cargando = true;
+      try {
+        const respuesta = await ArchivosService.dejarDeCompartir(this.archivo.id);
+        if (respuesta) {
+          NotificacionesService.mostrarNotificacionExito("El archivo ya no está compartido");
+        } else {
+          NotificacionesService.mostrarNotificacionExito("Error dejando de compartir archivo");
+        }
+      } catch (e) {
+        NotificacionesService.mostrarNotificacionError("Error dejando de compartir archivo: " + e);
+      } finally {
+        this.cargando = false;
+        this.obtenerDetalles();
+      }
+    },
     cerrarModal() {
       this.$parent.close();
     },
     async compartir() {
+      // TODO: alerta confirmación
       this.cargando = true;
       try {
         const respuesta = await ArchivosService.compartir(this.archivo.id);
@@ -82,7 +101,6 @@ export default {
         this.cargando = false;
         this.obtenerDetalles();
       }
-
     },
     async obtenerDetalles() {
       this.cargando = true;

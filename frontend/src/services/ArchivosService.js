@@ -19,6 +19,9 @@ const ArchivosService = {
     },
     async detallesCompartido(idArchivo) {
         return await HttpService.post("/detalles_archivo_compartido.php", {idArchivo});
+    },
+    async dejarDeCompartir(idArchivo) {
+        return await HttpService.post("/dejar_de_compartir.php", {idArchivo});
     }
 };
 export default ArchivosService;

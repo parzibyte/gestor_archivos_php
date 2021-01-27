@@ -6,6 +6,15 @@ namespace Parzibyte;
 
 class CompartirArchivo
 {
+    static function dejarDeCompartir($idArchivo)
+    {
+        if (!Gestor::archivoPerteneceAUsuarioLogueado($idArchivo)) {
+            return false;
+        }
+        $bd = BD::obtener();
+        $sentencia = $bd->prepare("DELETE FROM archivos_compartidos WHERE id_archivo = ?");
+        return $sentencia->execute([$idArchivo]);
+    }
 
     static function obtenerDetallesPublicosArchivoCompartido($hash)
     {
