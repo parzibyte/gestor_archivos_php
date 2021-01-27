@@ -26,6 +26,70 @@ Order allow,deny
    `memory_limit` debería ser mayor que `post_max_size` y `upload_max_filesize`, aunque en el caso de las descargas he
    probado con archivos de hasta **2.59 GB** y no hay problemas, teniendo `128M` como valor en `memory_limit`
 
+# Preparando para producción
+
+Ejecutar `npm run build` y copiar al servidor de producción solo la carpeta **api** y todos los archivos generados
+dentro de **dist**.
+
+**Lee bien**: debes copiar todos los archivos generados de manera que estos sean hermanos de la carpeta **api**, y no
+solo copiar la carpeta llamada **dist**. Solo como referencia, el directorio de producción en mi caso
+es ``gestor_archivos_php_prod`` y se ve así:
+
+````
+λ tree gestor_archivos_php_prod
+Listado de rutas de carpetas
+El número de serie del volumen es 
+C:\XAMPP\HTDOCS\GESTOR_ARCHIVOS_PHP_PROD
+├───api
+│   ├───Parzibyte
+│   ├───subidas
+│   └───vendor
+│       ├───bin
+│       ├───brick
+│       │   └───math
+│       │       └───src
+│       │           ├───Exception
+│       │           └───Internal
+│       │               └───Calculator
+│       ├───composer
+│       ├───ramsey
+│       │   ├───collection
+│       │   │   ├───bin
+│       │   │   └───src
+│       │   │       ├───Exception
+│       │   │       ├───Map
+│       │   │       └───Tool
+│       │   └───uuid
+│       │       └───src
+│       │           ├───Builder
+│       │           ├───Codec
+│       │           ├───Converter
+│       │           │   ├───Number
+│       │           │   └───Time
+│       │           ├───Exception
+│       │           ├───Fields
+│       │           ├───Generator
+│       │           ├───Guid
+│       │           ├───Lazy
+│       │           ├───Math
+│       │           ├───Nonstandard
+│       │           ├───Provider
+│       │           │   ├───Dce
+│       │           │   ├───Node
+│       │           │   └───Time
+│       │           ├───Rfc4122
+│       │           ├───Type
+│       │           └───Validator
+│       └───symfony
+│           └───polyfill-ctype
+├───css
+├───fonts
+└───js
+````
+
+Una vez que hayas copiado **api**, edita el archivo **cors.php** y establece la variable ``produccion``
+en ``true``
+
 # Posibles implicaciones de seguridad sobre archivos públicos
 
 Existe la posibilidad de que los hashes se repitan en algún momento a través de toda la historia y uso del software; y
