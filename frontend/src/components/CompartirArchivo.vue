@@ -28,12 +28,13 @@
         <br>
         Recuerda que puedes dejar de compartir y volver a compartir para generar otro enlace
         <br>
-        <b-button @click="dejarDeCompartir()" class="mt-1" icon-right="share-off" type="is-danger">Dejar de compartir
+        <b-button @click="confirmarDejarDeCompartir()" class="mt-1" icon-right="share-off" type="is-danger">Dejar de
+          compartir
         </b-button>
       </div>
       <div v-show="!compartido && !cargando">
         <p>Este archivo no está compartido. <strong>Solo tú puedes descargarlo</strong></p>
-        <b-button @click="compartir()" class="mt-1" icon-right="share" type="is-success">Compartir</b-button>
+        <b-button @click="confirmarCompartir()" class="mt-1" icon-right="share" type="is-success">Compartir</b-button>
       </div>
     </section>
     <footer class="modal-card-foot">
@@ -64,9 +65,12 @@ export default {
     },
   },
   methods: {
+    async confirmarDejarDeCompartir() {
+      NotificacionesService.mostrarDialogoConfirmacion("¿Seguro que quieres dejar de compartir este archivo?", () => {
+        this.dejarDeCompartir();
+      });
+    },
     async dejarDeCompartir() {
-      // TODO: alerta confirmación
-
       this.cargando = true;
       try {
         const respuesta = await ArchivosService.dejarDeCompartir(this.archivo.id);
@@ -85,8 +89,12 @@ export default {
     cerrarModal() {
       this.$parent.close();
     },
+    async confirmarCompartir() {
+      NotificacionesService.mostrarDialogoConfirmacion("¿Seguro que quieres compartir este archivo?", () => {
+        this.compartir();
+      });
+    },
     async compartir() {
-      // TODO: alerta confirmación
       this.cargando = true;
       try {
         const respuesta = await ArchivosService.compartir(this.archivo.id);
