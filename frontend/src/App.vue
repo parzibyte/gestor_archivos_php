@@ -22,6 +22,10 @@
              @click="navegarHacia('VerUsuarios')">
             <b-icon class="mr-1" icon="account-multiple"></b-icon>&nbsp;
             Usuarios</a>
+          <a v-show="logueado && esAdministrador" class="navbar-item"
+             @click="navegarHacia('AcercaDe')">
+            <b-icon class="mr-1" icon="information"></b-icon>&nbsp;
+            Acerca de</a>
         </div>
         <div class="navbar-end">
           <a v-show="logueado" class="navbar-item" @click="navegarHacia('Logout')">Salir (<small>{{

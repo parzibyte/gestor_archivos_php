@@ -6,6 +6,7 @@ import Logout from '@/components/Logout'
 import CrearUsuario from '@/components/CrearUsuario'
 import VerArchivos from '@/components/VerArchivos'
 import VerUsuarios from '@/components/VerUsuarios'
+import AcercaDe from '@/components/AcercaDe'
 import EventBus from "@/EventBus";
 
 Vue.use(Router);
@@ -40,6 +41,11 @@ const router = new Router({
             path: '/usuarios',
             name: 'VerUsuarios',
             component: VerUsuarios,
+        },
+        {
+            path: '/',
+            name: 'AcercaDe',
+            component: AcercaDe,
         }
     ]
 });
