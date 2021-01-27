@@ -22,6 +22,11 @@ const UsuariosService = {
         return await HttpService.post("/cambiar_estado_administrador.php", {
             nuevoEstado, idUsuario
         });
+    },
+    async actualizarPalabraSecreta(idUsuario, palabraSecretaActual, nuevaPalabraSecreta) {
+        return await HttpService.post("/cambiar_palabra_secreta.php", {
+            idUsuario, palabraSecretaActual, nuevaPalabraSecreta
+        });
     }
 };
 export default UsuariosService;

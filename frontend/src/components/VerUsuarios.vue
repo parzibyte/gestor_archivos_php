@@ -1,5 +1,13 @@
 <template>
   <div>
+    <b-modal :active.sync="mostrarModalCambiarPalabraSecreta"
+             aria-modal
+             aria-role="dialog"
+             has-modal-card
+             :destroy-on-hide="true"
+             trap-focus>
+      <CambiarPalabraSecreta :usuario="usuarioEditado" @cambiada="onPalabraSecretaCambiada"/>
+    </b-modal>
     <div class="columns">
       <div class="column">
         <h2 class="is-size-2">Usuarios</h2>
@@ -28,7 +36,7 @@
                     <b-icon icon="dots-vertical"></b-icon>
                   </b-button>
                 </template>
-                <b-dropdown-item @click="cambiarPalabraSecreta(props.row.id)" aria-role="listitem">
+                <b-dropdown-item @click="cambiarPalabraSecreta(props.row)" aria-role="listitem">
                   <b-icon icon="form-textbox-password"></b-icon>&nbsp;Cambiar contraseña
                 </b-dropdown-item>
                 <b-dropdown-item v-show="!props.row.administrador" @click="hacerAdministrador(props.row.id)"
@@ -56,9 +64,21 @@
 import EventBus from "@/EventBus";
 import UsuariosService from "@/services/UsuariosService";
 import NotificacionesService from "@/services/NotificacionesService";
+import CambiarPalabraSecreta from "@/components/CambiarPalabraSecreta";
 
 export default {
   name: "VerUsuarios",
+  components: {CambiarPalabraSecreta},
+
+  data: () => ({
+    cargando: false,
+    usuarios: [],
+    mostrarModalCambiarPalabraSecreta: false,
+    usuarioEditado: {},// El usuario al que se le cambia la contraseña
+  }),
+  mounted() {
+    this.obtenerUsuarios();
+  },
   methods: {
     async cambiarEstadoAdministrador(nuevoEstado, id) {
       this.cargando = true;
@@ -93,11 +113,11 @@ export default {
       this.usuarios = await UsuariosService.obtenerUsuarios();
       this.cargando = false;
     },
-    cambiarPalabraSecreta() {
-
+    cambiarPalabraSecreta(usuario) {
+      this.usuarioEditado = usuario;
+      this.mostrarModalCambiarPalabraSecreta = true;
     },
     async eliminar(id) {
-
       try {
         this.cargando = true;
         const respuesta = await UsuariosService.eliminarUsuario(id);
@@ -117,14 +137,13 @@ export default {
       NotificacionesService.mostrarDialogoConfirmacion("¿Eliminar usuario?", () => {
         this.eliminar(id);
       });
-    }
+    },
+    onPalabraSecretaCambiada() {
+      this.usuarioEditado = {};
+      this.mostrarModalCambiarPalabraSecreta = false;
+    },
+
   },
-  data: () => ({
-    cargando: false,
-    usuarios: [],
-  }),
-  mounted() {
-    this.obtenerUsuarios();
-  },
+
 }
 </script>
