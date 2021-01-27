@@ -1,5 +1,13 @@
 <template>
   <div>
+    <b-modal :active.sync="mostrarModalCompartir"
+             aria-modal
+             aria-role="dialog"
+             has-modal-card
+             :destroy-on-hide="true"
+             trap-focus>
+      <CompartirArchivo :archivo="archivoCompartido"></CompartirArchivo>
+    </b-modal>
 
     <div class="columns">
       <div class="column">
@@ -8,7 +16,8 @@
     </div>
     <div class="columns">
       <div class="column">
-        <b-button class="mb-2" @click="navegarHacia('SubirArchivo')" type="is-success" icon-right="plus">Agregar</b-button>
+        <b-button class="mb-2" @click="navegarHacia('SubirArchivo')" type="is-success" icon-right="plus">Agregar
+        </b-button>
         <b-table :data="archivos" :loading="cargando">
           <template>
             <b-table-column searchable field="nombre_original" label="Nombre" sortable v-slot="props">
@@ -36,7 +45,7 @@
                 <b-dropdown-item @click="descargar(props.row.id)" aria-role="listitem">
                   <b-icon icon="cloud-download"></b-icon>&nbsp;Descargar
                 </b-dropdown-item>
-                <b-dropdown-item aria-role="listitem">
+                <b-dropdown-item @click="compartir(props.row)" aria-role="listitem">
                   <b-icon icon="share-variant"></b-icon>&nbsp;Compartir
                 </b-dropdown-item>
                 <b-dropdown-item @click="confirmarEliminacion(props.row.id)" aria-role="listitem">
@@ -57,13 +66,25 @@ import Constantes from "@/Constantes";
 import Utiles from "@/Utiles";
 import NotificacionesService from "@/services/NotificacionesService";
 import EventBus from "@/EventBus";
+import CompartirArchivo from "@/components/CompartirArchivo";
 
 export default {
   name: "VerArchivos",
+  components: {CompartirArchivo},
+  data: () => ({
+    archivos: [],
+    cargando: false,
+    archivoCompartido: {},
+    mostrarModalCompartir: false,
+  }),
   mounted() {
     this.obtenerArchivos();
   },
   methods: {
+    compartir(archivo) {
+      this.archivoCompartido = archivo;
+      this.mostrarModalCompartir = true;
+    },
     navegarHacia(nombreRuta) {
       EventBus.$emit("navegarHacia", nombreRuta);
     },
@@ -101,9 +122,6 @@ export default {
       window.open(url);
     }
   },
-  data: () => ({
-    archivos: [],
-    cargando: false,
-  }),
+
 }
 </script>

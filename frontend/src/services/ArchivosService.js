@@ -13,6 +13,12 @@ const ArchivosService = {
             formData.append("archivos[]", archivo);
         }
         return await HttpService.formdata("/subir_archivos.php", formData);
+    },
+    async compartir(idArchivo) {
+        return await HttpService.post("/compartir_archivo.php", {idArchivo});
+    },
+    async detallesCompartido(idArchivo) {
+        return await HttpService.post("/detalles_archivo_compartido.php", {idArchivo});
     }
 };
 export default ArchivosService;
