@@ -4,14 +4,14 @@ Gestor de archivos con PHP. Permite la subida y descarga de archivos con login, 
 
 # Instalación
 
-Además de lo como la creación del archivo **env.php**, instalación de dependencias e importación del esquema, hay
-ciertos puntos a considerar
+Además la creación del archivo **env.php**, instalación de dependencias del lado del cliente como del servidor, e
+importación del esquema, hay ciertos puntos a considerar
 
 1. Configurar el directorio en donde estarán todos los archivos. Por defecto es en la carpeta **subidas** en el
-   directorio raíz
+   directorio de la api. Este directorio debe ser creado si no existe
 
-2. Proteger directorio con Apache o el servidor que se esté usando, así no se permiten las descargas sin autorización.
-   Lo siguiente puede ser el ejemplo del **.htaccess**:
+2. Proteger ese directorio con Apache o el servidor que se esté usando, así no se permiten las descargas sin
+   autorización. Lo siguiente puede ser el ejemplo del **.htaccess**:
 
 ```apacheconf
 Allow from None
@@ -22,7 +22,7 @@ Order allow,deny
    archivo
    **php.ini** según tus necesidades.
 
-   `memory_limit` debería ser mayor que `post_max_size` y `upload_max_filesize`, aunque en el caso de las descargas he
+4. `memory_limit` debería ser mayor que `post_max_size` y `upload_max_filesize`, aunque en el caso de las descargas he
    probado con archivos de hasta **2.59 GB** y no hay problemas, teniendo `128M` como valor en `memory_limit`
 
 # Preparando para producción
